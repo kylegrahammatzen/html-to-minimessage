@@ -29,6 +29,7 @@ public class HtmlCommand implements CommandExecutor {
             return false;
         }
 
+        //String html = "<p><red>Awesome!</red> <rainbow>You're a member now.</rainbow> <green>You'll gain access to the following perks listed below.</green></p><p> <strong>Your Perks</strong><strong>:</strong></p><ul><li><strong>[!] </strong>Prefix</li><li>Limited Access</li><li>Beta Access</li><li>Double Cash</li><li>/ipv4</li><li>/ipv6</li></ul><p>This perk expires in <strong>30 days</strong>!</p>";
         String html = buildHtml(args);
         String compiledHtml = compileHtml(html);
         Component messageComponent = miniMessage.deserialize(compiledHtml,
@@ -54,6 +55,8 @@ public class HtmlCommand implements CommandExecutor {
                 .replaceAll("(?i)</p>", "\n")
                 .replaceAll("(?i)<li>", "\n<bullet> ")
                 .replaceAll("(?i)</li>", "")
+                .replaceAll("(?i)<strong>", "<bold>")
+                .replaceAll("(?i)</strong>", "</bold>")
                 .replaceAll("(?i)<ul>", "")
                 .replaceAll("(?i)</ul>", "")
                 .replaceAll("(?i)<br>", "\n")
