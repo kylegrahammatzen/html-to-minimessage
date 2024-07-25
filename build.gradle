@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+defaultTasks("shadowJar")
+
+group = 'com.kylegm'
+version = '1.0-SNAPSHOT'
+
+plugins.withId('java') {
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+shadowJar {
+    archiveFileName.set("Html2MM-${rootProject.version}.jar")
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "spigotmc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT'
+}
+
+processResources {
+    def props = [version: rootProject.version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    filesNotMatching("**/*.zip") {
+        expand props
+    }
+}
